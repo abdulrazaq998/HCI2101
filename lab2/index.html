@@ -1,0 +1,781 @@
+
+Modern Arabic Tic-Tac-Toe Game Development
+Act as an expert Web Developer. Create a single-file "index.html" containing HTML, CSS, and JavaScript for a modern, beautiful game (like XO). Requirements:
+
+Interface: Arabic.
+
+Footer must display: Student Name: [YOUR NAME] | ID: [YOUR ID] | Supervised by: Mohammed Jabali.
+
+Support Single & Two players.
+Modern Arabic Tic-Tac-Toe Game (XO)
+I'll create a beautiful, modern Tic-Tac-Toe game with Arabic interface that supports both single and two-player modes. The design will incorporate Arabic aesthetics and responsive layout.
+
+html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة إكس أو (تيك تاك تو)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+            color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: #ffeb3b;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(255, 235, 59, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #e1f5fe;
+            margin-bottom: 20px;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .player-mode {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .mode-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mode-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .mode-btn.active {
+            background: #ff9800;
+            color: #1a237e;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+        }
+
+        .game-status {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #4fc3f7;
+            text-align: center;
+            padding: 12px 24px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50px;
+            min-width: 250px;
+        }
+
+        .restart-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .restart-btn:hover {
+            background: #388e3c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 15px;
+            margin: 0 auto 40px;
+            max-width: 500px;
+            aspect-ratio: 1/1;
+        }
+
+        .cell {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cell:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .cell.x {
+            color: #ff5722;
+            text-shadow: 0 0 20px rgba(255, 87, 34, 0.7);
+        }
+
+        .cell.o {
+            color: #2196f3;
+            text-shadow: 0 0 20px rgba(33, 150, 243, 0.7);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .score {
+            text-align: center;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            min-width: 150px;
+        }
+
+        .score h3 {
+            color: #ffeb3b;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .score-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #4fc3f7;
+        }
+
+        .player-x {
+            border-top: 5px solid #ff5722;
+        }
+
+        .player-o {
+            border-top: 5px solid #2196f3;
+        }
+
+        .ties {
+            border-top: 5px solid #9c27b0;
+        }
+
+        .difficulty {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .difficulty-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .difficulty-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .difficulty-btn.active {
+            background: #9c27b0;
+            color: white;
+        }
+
+        .difficulty-section {
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .difficulty-section.show {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            font-size: 1.1rem;
+            color: #bbdefb;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        .game-instructions {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .game-instructions h3 {
+            color: #ffeb3b;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .game-info {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .player-mode {
+                justify-content: center;
+            }
+            
+            .score-board {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+            
+            .score {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .cell {
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cell {
+                font-size: 3rem;
+            }
+            
+            .mode-btn, .restart-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .game-status {
+                font-size: 1.1rem;
+                min-width: 200px;
+            }
+        }
+
+        .winner {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 235, 59, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 235, 59, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 235, 59, 0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-gamepad"></i> لعبة إكس أو (تيك تاك تو)</h1>
+            <p class="subtitle">استمتع بلعبة الذكاء الكلاسيكية مع لاعبين أو ضد الكمبيوتر</p>
+        </header>
+
+        <div class="game-info">
+            <div class="player-mode">
+                <button id="singlePlayerBtn" class="mode-btn active">
+                    <i class="fas fa-robot"></i> لاعب ضد الكمبيوتر
+                </button>
+                <button id="twoPlayersBtn" class="mode-btn">
+                    <i class="fas fa-users"></i> لاعبين
+                </button>
+            </div>
+            
+            <div id="gameStatus" class="game-status">دور لاعب X للعب</div>
+            
+            <button id="restartBtn" class="restart-btn">
+                <i class="fas fa-redo"></i> إعادة اللعبة
+            </button>
+        </div>
+
+        <div class="difficulty-section" id="difficultySection">
+            <div class="difficulty">
+                <h3>مستوى الصعوبة:</h3>
+                <button class="difficulty-btn active" data-level="easy">سهل</button>
+                <button class="difficulty-btn" data-level="medium">متوسط</button>
+                <button class="difficulty-btn" data-level="hard">صعب</button>
+            </div>
+        </div>
+
+        <div class="game-board" id="gameBoard">
+            <!-- Game cells will be generated by JavaScript -->
+        </div>
+
+        <div class="score-board">
+            <div class="score player-x">
+                <h3><i class="fas fa-times"></i> لاعب X</h3>
+                <div class="score-value" id="scoreX">0</div>
+            </div>
+            
+            <div class="score ties">
+                <h3><i class="fas fa-handshake"></i> التعادلات</h3>
+                <div class="score-value" id="scoreTie">0</div>
+            </div>
+            
+            <div class="score player-o">
+                <h3><i class="far fa-circle"></i> لاعب O</h3>
+                <div class="score-value" id="scoreO">0</div>
+            </div>
+        </div>
+
+        <div class="game-instructions">
+            <h3><i class="fas fa-info-circle"></i> تعليمات اللعبة</h3>
+            <p>1. الهدف من اللعبة هو وضع ثلاثة رموز متشابهة (X أو O) في خط عمودي أو أفقي أو قطري.</p>
+            <p>2. يبدأ اللاعب X أولاً ثم يتبادل اللاعبان الأدوار.</p>
+            <p>3. في وضع لاعب واحد، يمكنك اختيار مستوى صعوبة الكمبيوتر.</p>
+            <p>4. اضغط على زر "إعادة اللعبة" لبدء جولة جديدة أو تغيير إعدادات اللعبة.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>اسم الطالب: عبدالرزاق ياسرادم | الرقم الجامعي: 446001616 | المشرف: محمد الجبالي</p>
+        <p>لعبة تيك تاك تو (إكس أو) - تطوير ويب حديث</p>
+    </footer>
+
+    <script>
+        // Game state
+        const gameState = {
+            board: Array(9).fill(''),
+            currentPlayer: 'X',
+            gameActive: true,
+            scores: { X: 0, O: 0, tie: 0 },
+            isSinglePlayer: true,
+            difficulty: 'easy',
+            gameMode: 'singlePlayer'
+        };
+
+        // DOM elements
+        const gameBoard = document.getElementById('gameBoard');
+        const gameStatus = document.getElementById('gameStatus');
+        const restartBtn = document.getElementById('restartBtn');
+        const singlePlayerBtn = document.getElementById('singlePlayerBtn');
+        const twoPlayersBtn = document.getElementById('twoPlayersBtn');
+        const difficultySection = document.getElementById('difficultySection');
+        const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+        const scoreX = document.getElementById('scoreX');
+        const scoreO = document.getElementById('scoreO');
+        const scoreTie = document.getElementById('scoreTie');
+
+        // Winning combinations
+        const winningConditions = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+            [0, 4, 8], [2, 4, 6]             // Diagonals
+        ];
+
+        // Initialize the game board
+        function initializeBoard() {
+            gameBoard.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.setAttribute('data-index', i);
+                cell.addEventListener('click', () => handleCellClick(i));
+                gameBoard.appendChild(cell);
+            }
+            updateGameStatus();
+        }
+
+        // Handle cell click
+        function handleCellClick(index) {
+            // Check if cell is empty and game is active
+            if (gameState.board[index] !== '' || !gameState.gameActive) {
+                return;
+            }
+
+            // Make player move
+            makeMove(index, gameState.currentPlayer);
+
+            // Check for win or tie
+            const winner = checkWinner();
+            if (winner) {
+                if (winner === 'tie') {
+                    handleGameResult('tie');
+                } else {
+                    handleGameResult(winner);
+                }
+                return;
+            }
+
+            // Switch player
+            gameState.currentPlayer = gameState.currentPlayer === 'X' ? 'O' : 'X';
+            updateGameStatus();
+
+            // If single player mode and it's computer's turn
+            if (gameState.isSinglePlayer && gameState.currentPlayer === 'O' && gameState.gameActive) {
+                setTimeout(makeComputerMove, 500);
+            }
+        }
+
+        // Make a move on the board
+        function makeMove(index, player) {
+            gameState.board[index] = player;
+            const cell = document.querySelector(`.cell[data-index="${index}"]`);
+            cell.textContent = player;
+            cell.classList.add(player.toLowerCase());
+        }
+
+        // Make computer move
+        function makeComputerMove() {
+            if (!gameState.gameActive) return;
+
+            let index;
+            
+            // Different strategies based on difficulty
+            switch (gameState.difficulty) {
+                case 'easy':
+                    // Random moves
+                    index = getRandomMove();
+                    break;
+                case 'medium':
+                    // Mix of random and smart moves
+                    if (Math.random() < 0.5) {
+                        index = getSmartMove('O');
+                    } else {
+                        index = getRandomMove();
+                    }
+                    break;
+                case 'hard':
+                    // Smart moves - try to win or block player
+                    index = getSmartMove('O');
+                    break;
+                default:
+                    index = getRandomMove();
+            }
+            
+            if (index !== -1) {
+                handleCellClick(index);
+            }
+        }
+
+        // Get a random available move
+        function getRandomMove() {
+            const availableMoves = gameState.board
+                .map((val, idx) => val === '' ? idx : null)
+                .filter(val => val !== null);
+            
+            if (availableMoves.length === 0) return -1;
+            
+            const randomIndex = Math.floor(Math.random() * availableMoves.length);
+            return availableMoves[randomIndex];
+        }
+
+        // Get a smart move (try to win or block opponent)
+        function getSmartMove(player) {
+            const opponent = player === 'X' ? 'O' : 'X';
+            
+            // 1. Check if we can win
+            for (let i = 0; i < winningConditions.length; i++) {
+                const [a, b, c] = winningConditions[i];
+                const cells = [gameState.board[a], gameState.board[b], gameState.board[c]];
+                
+                // Check if we have two in a row and the third is empty
+                if (cells.filter(cell => cell === player).length === 2 && cells.includes('')) {
+                    const emptyIndex = [a, b, c][cells.indexOf('')];
+                    return emptyIndex;
+                }
+            }
+            
+            // 2. Check if we need to block opponent
+            for (let i = 0; i < winningConditions.length; i++) {
+                const [a, b, c] = winningConditions[i];
+                const cells = [gameState.board[a], gameState.board[b], gameState.board[c]];
+                
+                // Check if opponent has two in a row and the third is empty
+                if (cells.filter(cell => cell === opponent).length === 2 && cells.includes('')) {
+                    const emptyIndex = [a, b, c][cells.indexOf('')];
+                    return emptyIndex;
+                }
+            }
+            
+            // 3. Take center if available
+            if (gameState.board[4] === '') return 4;
+            
+            // 4. Take corners if available
+            const corners = [0, 2, 6, 8];
+            const availableCorners = corners.filter(corner => gameState.board[corner] === '');
+            if (availableCorners.length > 0) {
+                return availableCorners[Math.floor(Math.random() * availableCorners.length)];
+            }
+            
+            // 5. Otherwise, random move
+            return getRandomMove();
+        }
+
+        // Check for winner
+        function checkWinner() {
+            // Check for win
+            for (let i = 0; i < winningConditions.length; i++) {
+                const [a, b, c] = winningConditions[i];
+                if (gameState.board[a] && 
+                    gameState.board[a] === gameState.board[b] && 
+                    gameState.board[a] === gameState.board[c]) {
+                    return gameState.board[a];
+                }
+            }
+            
+            // Check for tie
+            if (!gameState.board.includes('')) {
+                return 'tie';
+            }
+            
+            return null;
+        }
+
+        // Handle game result
+        function handleGameResult(result) {
+            gameState.gameActive = false;
+            
+            // Update scores
+            if (result === 'X' || result === 'O') {
+                gameState.scores[result]++;
+                updateScoreDisplay();
+                
+                // Highlight winning cells
+                highlightWinningCells();
+                
+                gameStatus.textContent = result === 'X' ? 
+                    'فاز لاعب X!' : (gameState.isSinglePlayer ? 'فاز الكمبيوتر!' : 'فاز لاعب O!');
+            } else {
+                gameState.scores.tie++;
+                updateScoreDisplay();
+                gameStatus.textContent = 'تعادل!';
+            }
+        }
+
+        // Highlight winning cells
+        function highlightWinningCells() {
+            for (let i = 0; i < winningConditions.length; i++) {
+                const [a, b, c] = winningConditions[i];
+                if (gameState.board[a] && 
+                    gameState.board[a] === gameState.board[b] && 
+                    gameState.board[a] === gameState.board[c]) {
+                    
+                    document.querySelector(`.cell[data-index="${a}"]`).classList.add('winner');
+                    document.querySelector(`.cell[data-index="${b}"]`).classList.add('winner');
+                    document.querySelector(`.cell[data-index="${c}"]`).classList.add('winner');
+                    break;
+                }
+            }
+        }
+
+        // Update game status display
+        function updateGameStatus() {
+            if (gameState.gameActive) {
+                if (gameState.currentPlayer === 'X') {
+                    gameStatus.textContent = 'دور لاعب X للعب';
+                } else {
+                    if (gameState.isSinglePlayer) {
+                        gameStatus.textContent = 'دور الكمبيوتر للعب';
+                    } else {
+                        gameStatus.textContent = 'دور لاعب O للعب';
+                    }
+                }
+            }
+        }
+
+        // Update score display
+        function updateScoreDisplay() {
+            scoreX.textContent = gameState.scores.X;
+            scoreO.textContent = gameState.scores.O;
+            scoreTie.textContent = gameState.scores.tie;
+        }
+
+        // Restart game
+        function restartGame() {
+            gameState.board = Array(9).fill('');
+            gameState.currentPlayer = 'X';
+            gameState.gameActive = true;
+            
+            // Remove winner animation
+            document.querySelectorAll('.cell').forEach(cell => {
+                cell.classList.remove('winner');
+            });
+            
+            initializeBoard();
+        }
+
+        // Set game mode
+        function setGameMode(mode) {
+            gameState.isSinglePlayer = mode === 'singlePlayer';
+            gameState.gameMode = mode;
+            
+            // Update UI
+            if (mode === 'singlePlayer') {
+                singlePlayerBtn.classList.add('active');
+                twoPlayersBtn.classList.remove('active');
+                difficultySection.classList.add('show');
+            } else {
+                singlePlayerBtn.classList.remove('active');
+                twoPlayersBtn.classList.add('active');
+                difficultySection.classList.remove('show');
+            }
+            
+            restartGame();
+        }
+
+        // Set difficulty level
+        function setDifficulty(level) {
+            gameState.difficulty = level;
+            
+            // Update UI
+            difficultyButtons.forEach(btn => {
+                if (btn.getAttribute('data-level') === level) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Event listeners
+        restartBtn.addEventListener('click', restartGame);
+        
+        singlePlayerBtn.addEventListener('click', () => setGameMode('singlePlayer'));
+        twoPlayersBtn.addEventListener('click', () => setGameMode('twoPlayers'));
+        
+        difficultyButtons.forEach(btn => {
+            btn.addEventListener('click', () => setDifficulty(btn.getAttribute('data-level')));
+        });
+
+        // Initialize the game
+        initializeBoard();
+        updateScoreDisplay();
+        difficultySection.classList.add('show');
+    </script>
+</body>
+</html>
+Features of this Tic-Tac-Toe Game:
+Modern Arabic Interface: The game is fully in Arabic with right-to-left text direction and beautiful Arabic typography.
+
+Two Game Modes:
+
+Single Player (vs Computer)
+
+Two Players (local multiplayer)
+
+Difficulty Levels (for single player mode):
+
+Easy (random moves)
+
+Medium (mix of random and smart moves)
+
+Hard (smart AI that tries to win or block)
+
+Visual Features:
+
+Responsive design that works on all devices
+
+Modern glassmorphism design with blurred backgrounds
+
+Attractive color scheme with animations
+
+Highlighting of winning combinations
+
+Score tracking for X, O, and ties
+
+Game Controls:
+
+Easy to switch between game modes
+
+Difficulty selection for single player
+
+Restart button to reset the game
+
+Required Footer: Includes student name, ID, and supervisor information as requested.
+
+The game is contained in a single HTML file with all CSS and JavaScript included. Just save it as index.html and open it in any modern browser to play.
+
+
