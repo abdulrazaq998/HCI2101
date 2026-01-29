@@ -1,0 +1,2091 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة تحداني - تحدى معلوماتك الثقافية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=El+Messiri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #FF6584;
+            --accent: #36D1DC;
+            --dark: #1A1A2E;
+            --darker: #16213E;
+            --light: #F5F7FF;
+            --success: #4CD964;
+            --warning: #FF9500;
+            --danger: #FF3B30;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: var(--light);
+            min-height: 100vh;
+            line-height: 1.8;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(108, 99, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 101, 132, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(54, 209, 220, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .logo-icon {
+            font-size: 5rem;
+            color: var(--primary);
+            filter: drop-shadow(0 0 25px rgba(108, 99, 255, 0.5));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        .logo-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        h1 {
+            font-family: 'El Messiri', cursive;
+            font-size: 4.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+            text-shadow: 0 5px 25px rgba(108, 99, 255, 0.3);
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
+        }
+
+        h1:hover::after {
+            transform: scaleX(1);
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            color: #B8C1EC;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* Game Container */
+        .game-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 40px;
+            margin-bottom: 50px;
+            perspective: 1000px;
+        }
+
+        @media (max-width: 1100px) {
+            .game-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Main Game Area */
+        .main-game {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            padding: 45px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: var(--transition);
+        }
+
+        .main-game:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .main-game::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.03) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.8s ease;
+        }
+
+        .main-game:hover::before {
+            transform: translateX(100%);
+        }
+
+        /* Question Area */
+        .question-container {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 50px;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .question-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .question-number {
+            background: var(--gradient);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.4rem;
+            box-shadow: 0 8px 25px rgba(108, 99, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .category-badge {
+            background: rgba(255, 101, 132, 0.9);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.4rem;
+            box-shadow: 0 8px 25px rgba(255, 101, 132, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .question-text {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 25px;
+            padding: 50px;
+            font-size: 2.4rem;
+            font-weight: 600;
+            line-height: 1.7;
+            color: var(--light);
+            border-right: 6px solid var(--accent);
+            box-shadow: 
+                inset 0 0 30px rgba(0, 0, 0, 0.3),
+                0 15px 40px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            position: relative;
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .question-text:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                inset 0 0 40px rgba(0, 0, 0, 0.4),
+                0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .question-hint {
+            background: rgba(255, 149, 0, 0.15);
+            border: 2px solid rgba(255, 149, 0, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 25px;
+            font-size: 1.4rem;
+            color: #FFD8A6;
+            display: none;
+            animation: slideIn 0.5s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(-20px) rotateX(90deg);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        .question-hint.show {
+            display: block;
+        }
+
+        /* Timer */
+        .timer-section {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .timer-label {
+            font-size: 1.6rem;
+            color: #B8C1EC;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 180px;
+        }
+
+        .timer-circle {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            flex-shrink: 0;
+        }
+
+        .timer-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .timer-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 10;
+        }
+
+        .timer-progress {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 10;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s linear;
+            filter: drop-shadow(0 0 10px rgba(54, 209, 220, 0.5));
+        }
+
+        .timer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: var(--light);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Answer Options */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.07);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.5rem;
+            font-weight: 500;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .option::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .option:hover::before {
+            transform: translateX(100%);
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-10px) rotateX(10deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(108, 99, 255, 0.3);
+        }
+
+        .option.selected {
+            background: rgba(108, 99, 255, 0.25);
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            box-shadow: 
+                0 20px 40px rgba(108, 99, 255, 0.3),
+                inset 0 0 20px rgba(108, 99, 255, 0.2);
+        }
+
+        .option.correct {
+            background: rgba(76, 217, 100, 0.25);
+            border-color: var(--success);
+            animation: correctGlow 1s ease;
+        }
+
+        @keyframes correctGlow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(76, 217, 100, 0.5);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(76, 217, 100, 0.8);
+            }
+        }
+
+        .option.incorrect {
+            background: rgba(255, 59, 48, 0.25);
+            border-color: var(--danger);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-15px); }
+            75% { transform: translateX(15px); }
+        }
+
+        .option-letter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--light);
+            transition: var(--transition);
+        }
+
+        .option:hover .option-letter {
+            transform: scale(1.1) rotate(10deg);
+            background: var(--gradient);
+        }
+
+        /* Game Controls */
+        .game-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 50px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 20px 40px;
+            border: none;
+            border-radius: 15px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            min-width: 200px;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .btn:hover::before {
+            transform: translateX(100%);
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 10px 30px rgba(108, 99, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(108, 99, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #2ECC71);
+            color: white;
+            box-shadow: 0 10px 30px rgba(76, 217, 100, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(76, 217, 100, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning), #FFA726);
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 149, 0, 0.3);
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(255, 149, 0, 0.4);
+        }
+
+        /* Sidebar */
+        .game-sidebar {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+            transform-style: preserve-3d;
+            transition: var(--transition);
+        }
+
+        .game-sidebar:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .player-card {
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.2), rgba(54, 209, 220, 0.2));
+            border-radius: 25px;
+            padding: 35px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            transform: rotate(45deg);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .player-title {
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-bottom: 25px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .player-score {
+            font-size: 6rem;
+            font-weight: 800;
+            color: var(--light);
+            margin-bottom: 15px;
+            text-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .player-label {
+            color: #B8C1EC;
+            font-size: 1.3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-8px);
+            border-color: rgba(108, 99, 255, 0.3);
+        }
+
+        .stat-value {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+
+        .stat-box:hover .stat-value {
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: #B8C1EC;
+            font-size: 1.2rem;
+        }
+
+        .progress-section {
+            margin-top: 15px;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 10px;
+            transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            color: #B8C1EC;
+        }
+
+        .categories-section {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 25px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .categories-title {
+            font-size: 1.6rem;
+            color: var(--accent);
+            margin-bottom: 25px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .category-tag {
+            background: rgba(255, 255, 255, 0.08);
+            color: #D0D7FF;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .category-tag:hover {
+            background: rgba(108, 99, 255, 0.2);
+            transform: translateY(-5px);
+            border-color: rgba(108, 99, 255, 0.3);
+        }
+
+        .category-tag.active {
+            background: var(--gradient);
+            color: white;
+            font-weight: 600;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(108, 99, 255, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #B8C1EC;
+            font-size: 1.2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+
+        .game-instructions {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 35px;
+            margin-top: 40px;
+            border-right: 6px solid var(--accent);
+            transition: var(--transition);
+        }
+
+        .game-instructions:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .instructions-title {
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-bottom: 25px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .instructions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .instructions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .instruction-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+
+        .instruction-item:hover {
+            transform: translateY(-8px);
+            border-color: rgba(108, 99, 255, 0.3);
+        }
+
+        .instruction-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .instruction-text {
+            font-size: 1.3rem;
+            color: #D0D7FF;
+            line-height: 1.6;
+        }
+
+        /* Result Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            border-radius: 35px;
+            padding: 60px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 
+                0 30px 80px rgba(0, 0, 0, 0.6),
+                inset 0 0 50px rgba(108, 99, 255, 0.1);
+            border: 2px solid rgba(108, 99, 255, 0.3);
+            transform: translateY(80px) scale(0.9) rotateX(20deg);
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(108, 99, 255, 0.1) 50%, transparent 70%);
+            animation: modalShimmer 3s infinite;
+        }
+
+        @keyframes modalShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0) scale(1) rotateX(0);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .modal-icon {
+            font-size: 8rem;
+            color: var(--accent);
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 30px rgba(54, 209, 220, 0.5));
+            animation: modalPulse 2s infinite;
+        }
+
+        @keyframes modalPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .modal-title {
+            font-size: 4rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            font-family: 'El Messiri', cursive;
+            text-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-text {
+            font-size: 1.8rem;
+            color: #D0D7FF;
+            margin-bottom: 50px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .modal-results {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 35px;
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .result-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 25px;
+            padding: 35px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .result-box:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .result-value {
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: var(--light);
+            margin-bottom: 15px;
+            text-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .result-label {
+            color: #B8C1EC;
+            font-size: 1.4rem;
+        }
+
+        /* Level Badge */
+        .level-badge {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: var(--gradient);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 20px rgba(108, 99, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 3.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .question-text {
+                font-size: 2rem;
+                padding: 35px;
+            }
+            
+            .player-score {
+                font-size: 4.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .question-text {
+                font-size: 1.7rem;
+                padding: 25px;
+            }
+            
+            .btn {
+                padding: 15px 30px;
+                min-width: 170px;
+                font-size: 1.2rem;
+            }
+            
+            .player-score {
+                font-size: 3.5rem;
+            }
+            
+            .modal {
+                padding: 40px;
+            }
+            
+            .modal-title {
+                font-size: 2.8rem;
+            }
+            
+            .modal-results {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Level Badge -->
+        <div class="level-badge">
+            <i class="fas fa-signal"></i>
+            <span>المستوى: مبتدئ</span>
+        </div>
+
+        <header>
+            <div class="logo-container">
+                <i class="fas fa-trophy logo-icon"></i>
+                <div class="logo-text">
+                    <h1>لعبة تحداني</h1>
+                    <p class="subtitle">اختبر معلوماتك وتحدى نفسك في مجموعة واسعة من الفئات الثقافية والعلمية</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="game-container">
+            <!-- Main Game Area -->
+            <div class="main-game">
+                <!-- Question Header -->
+                <div class="question-header">
+                    <div class="question-meta">
+                        <div class="question-number" id="questionNumber">
+                            <i class="fas fa-question-circle"></i>
+                            سؤال 1 من 10
+                        </div>
+                        <div class="category-badge" id="categoryBadge">
+                            <i class="fas fa-tag"></i>
+                            ثقافة عامة
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question Area -->
+                <div class="question-container">
+                    <div class="question-text" id="questionText">
+                        ما هي عاصمة المملكة العربية السعودية؟
+                    </div>
+                    
+                    <!-- Timer Section -->
+                    <div class="timer-section">
+                        <div class="timer-label">
+                            <i class="fas fa-clock"></i>
+                            الوقت المتبقي
+                        </div>
+                        <div class="timer-circle">
+                            <svg class="timer-svg" viewBox="0 0 140 140">
+                                <circle class="timer-bg" cx="70" cy="70" r="65"></circle>
+                                <circle class="timer-progress" cx="70" cy="70" r="65" stroke-dasharray="408.407" stroke-dashoffset="0"></circle>
+                            </svg>
+                            <div class="timer-text" id="timerText">30</div>
+                        </div>
+                    </div>
+
+                    <!-- Answer Options -->
+                    <div class="options-grid" id="optionsGrid">
+                        <!-- Options will be generated by JavaScript -->
+                    </div>
+
+                    <!-- Question Hint -->
+                    <div class="question-hint" id="questionHint">
+                        <i class="fas fa-lightbulb"></i>
+                        <strong>تلميح:</strong> هي مدينة تاريخية وعاصمة البلاد وأكبر مدنها
+                    </div>
+                </div>
+
+                <!-- Game Controls -->
+                <div class="game-controls">
+                    <button class="btn btn-warning" id="hintBtn">
+                        <i class="fas fa-lightbulb"></i>
+                        عرض التلميح
+                    </button>
+                    <button class="btn btn-secondary" id="nextBtn">
+                        <i class="fas fa-forward"></i>
+                        السؤال التالي
+                    </button>
+                    <button class="btn btn-success" id="submitBtn">
+                        <i class="fas fa-check-circle"></i>
+                        تأكيد الإجابة
+                    </button>
+                </div>
+            </div>
+
+            <!-- Game Sidebar -->
+            <div class="game-sidebar">
+                <!-- Player Card -->
+                <div class="player-card">
+                    <div class="player-title">رصيد النقاط</div>
+                    <div class="player-score" id="playerScore">0</div>
+                    <div class="player-label">إجمالي نقاطك في هذه الجولة</div>
+                </div>
+
+                <!-- Game Stats -->
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-value" id="correctCount">0</div>
+                        <div class="stat-label">إجابات صحيحة</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="wrongCount">0</div>
+                        <div class="stat-label">إجابات خاطئة</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="questionsCount">0</div>
+                        <div class="stat-label">أسئلة مجابة</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="hintsCount">0</div>
+                        <div class="stat-label">تلميحات مستخدمة</div>
+                    </div>
+                </div>
+
+                <!-- Progress -->
+                <div class="progress-section">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>تقدم اللعبة</span>
+                        <span id="progressText">0/10</span>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div class="categories-section">
+                    <h3 class="categories-title">
+                        <i class="fas fa-layer-group"></i>
+                        فئات الأسئلة
+                    </h3>
+                    <div class="categories-grid" id="categoriesList">
+                        <!-- Categories will be generated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Game Controls -->
+                <button class="btn btn-primary" id="restartBtn">
+                    <i class="fas fa-redo"></i>
+                    إعادة اللعبة
+                </button>
+                <button class="btn btn-secondary" id="changeCategoryBtn">
+                    <i class="fas fa-random"></i>
+                    فئة عشوائية
+                </button>
+            </div>
+        </div>
+
+        <!-- Game Instructions -->
+        <div class="game-instructions">
+            <h3 class="instructions-title">
+                <i class="fas fa-graduation-cap"></i>
+                كيفية اللعب والفوز
+            </h3>
+            <div class="instructions-grid">
+                <div class="instruction-item">
+                    <div class="instruction-icon">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <p class="instruction-text">اختر الإجابة الصحيحة من بين الخيارات الأربعة المتاحة</p>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <p class="instruction-text">لديك 30 ثانية للإجابة على كل سؤال، كل ثانية مهمة!</p>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <p class="instruction-text">استخدم زر التلميح للحصول على مساعدة، لكنه يخصم 2 نقطة</p>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="instruction-text">كل إجابة صحيحة تضيف 10 نقاط، وإجابة خاطئة تخصم 5 نقاط</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-item">
+                    <i class="fas fa-gamepad"></i>
+                    <span>لعبة تحداني - النسخة المطورة 2024</span>
+                </div>
+                <div class="footer-item">
+                    <i class="fas fa-code"></i>
+                    <span>تطوير وتصميم: فريق تحداني</span>
+                </div>
+            </div>
+            <p>جميع الحقوق محفوظة © 2024 | لعبة ثقافية تفاعلية لتطوير المعرفة والمعلومات</p>
+        </footer>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 class="modal-title" id="modalTitle">مبروك! لقد فزت</h2>
+                <p class="modal-text" id="modalText">أداء رائع! لقد أظهرت معرفة واسعة ومهارات عالية</p>
+            </div>
+            
+            <div class="modal-results">
+                <div class="result-box">
+                    <div class="result-value" id="finalScore">0</div>
+                    <div class="result-label">النقاط النهائية</div>
+                </div>
+                <div class="result-box">
+                    <div class="result-value" id="finalCorrect">0</div>
+                    <div class="result-label">إجابات صحيحة</div>
+                </div>
+                <div class="result-box">
+                    <div class="result-value" id="finalAccuracy">0%</div>
+                    <div class="result-label">معدل الدقة</div>
+                </div>
+                <div class="result-box">
+                    <div class="result-value" id="finalTime">0</div>
+                    <div class="result-label">متوسط الوقت</div>
+                </div>
+            </div>
+            
+            <div class="game-controls">
+                <button class="btn btn-secondary" id="closeModalBtn">
+                    <i class="fas fa-times"></i>
+                    إغلاق
+                </button>
+                <button class="btn btn-primary" id="playAgainBtn">
+                    <i class="fas fa-play"></i>
+                    لعب مرة أخرى
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game Data - Same categories and structure
+        const gameData = {
+            categories: [
+                "ثقافة عامة", "تاريخ عربي", "علوم وتكنولوجيا", 
+                "أدب وفنون", "جغرافيا", "رياضة", "دين", "تراث"
+            ],
+            
+            questions: [
+                // General Culture (ثقافة عامة)
+                {
+                    id: 1,
+                    category: "ثقافة عامة",
+                    question: "ما هي عاصمة المملكة العربية السعودية؟",
+                    options: ["الرياض", "جدة", "مكة المكرمة", "الدمام"],
+                    correctAnswer: 0,
+                    hint: "هي أكبر مدن السعودية وتقع في وسط البلاد"
+                },
+                {
+                    id: 2,
+                    category: "ثقافة عامة",
+                    question: "كم عدد أيام السنة الكبيسة؟",
+                    options: ["365", "366", "364", "367"],
+                    correctAnswer: 1,
+                    hint: "تحدث كل 4 سنوات وتضاف فيها يوم واحد"
+                },
+                {
+                    id: 3,
+                    category: "ثقافة عامة",
+                    question: "ما هو أسرع حيوان بري في العالم؟",
+                    options: ["الفهد", "الأسد", "النمر", "الغزال"],
+                    correctAnswer: 0,
+                    hint: "يمكن أن تصل سرعته إلى 120 كم/ساعة"
+                },
+                
+                // Arabic History (تاريخ عربي)
+                {
+                    id: 4,
+                    category: "تاريخ عربي",
+                    question: "من هو القائد المسلم الذي فتح الأندلس؟",
+                    options: ["طارق بن زياد", "صلاح الدين الأيوبي", "خالد بن الوليد", "عمرو بن العاص"],
+                    correctAnswer: 0,
+                    hint: "سمي مضيق بحري باسمه"
+                },
+                {
+                    id: 5,
+                    category: "تاريخ عربي",
+                    question: "في أي عام وقعت معركة حطين؟",
+                    options: ["1187 م", "1191 م", "1175 م", "1200 م"],
+                    correctAnswer: 0,
+                    hint: "كانت ضد الصليبيين بقيادة صلاح الدين الأيوبي"
+                },
+                {
+                    id: 6,
+                    category: "تاريخ عربي",
+                    question: "من هو مؤسس الدولة الأموية؟",
+                    options: ["معاوية بن أبي سفيان", "عبد الملك بن مروان", "مروان بن الحكم", "يزيد بن معاوية"],
+                    correctAnswer: 0,
+                    hint: "أول خليفة أموي بعد انتهاء الخلافة الراشدة"
+                },
+                
+                // Science & Technology (علوم وتكنولوجيا)
+                {
+                    id: 7,
+                    category: "علوم وتكنولوجيا",
+                    question: "ما هو أقرب كوكب إلى الشمس؟",
+                    options: ["الزهرة", "عطارد", "المريخ", "الأرض"],
+                    correctAnswer: 1,
+                    hint: "أصغر كوكب في المجموعة الشمسية"
+                },
+                {
+                    id: 8,
+                    category: "علوم وتكنولوجيا",
+                    question: "من هو مخترع الهاتف؟",
+                    options: ["غراهام بيل", "توماس إديسون", "نيكولا تسلا", "ألكسندر فلمنج"],
+                    correctAnswer: 0,
+                    hint: "مخترع أمريكي اسكتلندي المولد"
+                },
+                {
+                    id: 9,
+                    category: "علوم وتكنولوجيا",
+                    question: "ما هي لغة البرمجة المستخدمة في تطوير تطبيقات iOS؟",
+                    options: ["جافا", "سويفت", "بايثون", "كوتلن"],
+                    correctAnswer: 1,
+                    hint: "طورتها شركة آبل"
+                },
+                
+                // Literature & Arts (أدب وفنون)
+                {
+                    id: 10,
+                    category: "أدب وفنون",
+                    question: "من هو مؤلف كتاب 'الأيام'؟",
+                    options: ["طه حسين", "عباس محمود العقاد", "توفيق الحكيم", "نجيب محفوظ"],
+                    correctAnswer: 0,
+                    hint: "كاتب وأديب مصري لقب بعميد الأدب العربي"
+                },
+                {
+                    id: 11,
+                    category: "أدب وفنون",
+                    question: "من هو الفنان الذي رسم لوحة 'الموناليزا'؟",
+                    options: ["فان جوخ", "بيكاسو", "ليوناردو دافنشي", "رامبرانت"],
+                    correctAnswer: 2,
+                    hint: "فنان إيطالي عصر النهضة"
+                },
+                {
+                    id: 12,
+                    category: "أدب وفنون",
+                    question: "ما هي الجائزة الأدبية التي تمنح للأعمال الروائية العربية؟",
+                    options: ["جائزة نوبل", "جائزة البوكر", "جائزة الدولة", "جائزة الشيخ زايد"],
+                    correctAnswer: 1,
+                    hint: "جائزة دولية للرواية العربية"
+                },
+                
+                // Geography (جغرافيا)
+                {
+                    id: 13,
+                    category: "جغرافيا",
+                    question: "ما هو أطول نهر في العالم؟",
+                    options: ["النيل", "الأمازون", "الميسيسيبي", "الدانوب"],
+                    correctAnswer: 1,
+                    hint: "يقع في أمريكا الجنوبية"
+                },
+                {
+                    id: 14,
+                    category: "جغرافيا",
+                    question: "ما هي أكبر دولة في العالم من حيث المساحة؟",
+                    options: ["كندا", "الولايات المتحدة", "روسيا", "الصين"],
+                    correctAnswer: 2,
+                    hint: "تمتد بين قارتي أوروبا وآسيا"
+                },
+                {
+                    id: 15,
+                    category: "جغرافيا",
+                    question: "ما هو أعلى جبل في العالم؟",
+                    options: ["كيه 2", "كانغشينجونغا", "إفرست", "ماكالو"],
+                    correctAnswer: 2,
+                    hint: "يقع في سلسلة جبال الهيمالايا"
+                },
+                
+                // Sports (رياضة)
+                {
+                    id: 16,
+                    category: "رياضة",
+                    question: "كم عدد لاعبي كرة القدم في كل فريق؟",
+                    options: ["10", "11", "12", "9"],
+                    correctAnswer: 1,
+                    hint: "بما فيهم حارس المرمى"
+                },
+                {
+                    id: 17,
+                    category: "رياضة",
+                    question: "في أي رياضة يستخدم مصطلح 'أيس'؟",
+                    options: ["كرة السلة", "التنس", "كرة القدم", "السباحة"],
+                    correctAnswer: 1,
+                    hint: "رياضة تستخدم فيها مضرب وكرة"
+                },
+                {
+                    id: 18,
+                    category: "رياضة",
+                    question: "من هو اللاعب العربي الوحيد الذي فاز بجائزة الكرة الذهبية؟",
+                    options: ["محمد صلاح", "كريم بنزيما", "رياض محرز", "صادق الميالي"],
+                    correctAnswer: 1,
+                    hint: "لاعب فرنسي من أصول جزائرية"
+                },
+                
+                // Religion (دين)
+                {
+                    id: 19,
+                    category: "دين",
+                    question: "كم عدد أركان الإسلام؟",
+                    options: ["4", "5", "6", "7"],
+                    correctAnswer: 1,
+                    hint: "الشهادتين، الصلاة، الزكاة، الصوم، الحج"
+                },
+                {
+                    id: 20,
+                    category: "دين",
+                    question: "ما هو أول شهر في التقويم الهجري؟",
+                    options: ["رمضان", "شوال", "محرم", "صفر"],
+                    correctAnswer: 2,
+                    hint: "شهر محرم"
+                },
+                
+                // Heritage (تراث)
+                {
+                    id: 21,
+                    category: "تراث",
+                    question: "ما هو اسم السوق الشعبي التقليدي في الدول العربية؟",
+                    options: ["المول", "السوبرماركت", "السوق", "البازار"],
+                    correctAnswer: 2,
+                    hint: "مكان لتجمع البائعين والمشترين"
+                },
+                {
+                    id: 22,
+                    category: "تراث",
+                    question: "ما هو المشروب العربي التقليدي المصنوع من القهوة والهيل؟",
+                    options: ["الشاي", "القَهوة العربية", "العصير", "النسكافيه"],
+                    correctAnswer: 1,
+                    hint: "تقدم في الدلة وتشتهر بها دول الخليج"
+                },
+                {
+                    id: 23,
+                    category: "تراث",
+                    question: "ما هو الفن الغنائي الخليجي التقليدي؟",
+                    options: ["العرضة", "السامري", "المالد", "الموال"],
+                    correctAnswer: 1,
+                    hint: "فن غنائي تقليدي في الخليج العربي"
+                }
+            ]
+        };
+
+        // Game State
+        const gameState = {
+            currentQuestionIndex: 0,
+            score: 0,
+            correctAnswers: 0,
+            wrongAnswers: 0,
+            questionsAnswered: 0,
+            totalQuestions: 10,
+            selectedOption: null,
+            timer: 30,
+            timerInterval: null,
+            isAnswered: false,
+            currentCategory: "ثقافة عامة",
+            usedQuestions: [],
+            gameActive: true,
+            timePerQuestion: [],
+            hintsUsed: 0,
+            totalTime: 0,
+            level: "مبتدئ"
+        };
+
+        // DOM Elements
+        const questionNumber = document.getElementById('questionNumber');
+        const questionText = document.getElementById('questionText');
+        const questionHint = document.getElementById('questionHint');
+        const categoryBadge = document.getElementById('categoryBadge');
+        const timerText = document.getElementById('timerText');
+        const timerProgress = document.querySelector('.timer-progress');
+        const optionsGrid = document.getElementById('optionsGrid');
+        const playerScore = document.getElementById('playerScore');
+        const correctCount = document.getElementById('correctCount');
+        const wrongCount = document.getElementById('wrongCount');
+        const questionsCount = document.getElementById('questionsCount');
+        const hintsCount = document.getElementById('hintsCount');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const categoriesList = document.getElementById('categoriesList');
+        const levelBadge = document.querySelector('.level-badge span');
+        
+        // Buttons
+        const hintBtn = document.getElementById('hintBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const changeCategoryBtn = document.getElementById('changeCategoryBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const playAgainBtn = document.getElementById('playAgainBtn');
+        const resultModal = document.getElementById('resultModal');
+        
+        // Modal Elements
+        const modalTitle = document.getElementById('modalTitle');
+        const modalText = document.getElementById('modalText');
+        const finalScore = document.getElementById('finalScore');
+        const finalCorrect = document.getElementById('finalCorrect');
+        const finalAccuracy = document.getElementById('finalAccuracy');
+        const finalTime = document.getElementById('finalTime');
+
+        // Initialize Game
+        function initGame() {
+            // Reset game state
+            gameState.currentQuestionIndex = 0;
+            gameState.score = 0;
+            gameState.correctAnswers = 0;
+            gameState.wrongAnswers = 0;
+            gameState.questionsAnswered = 0;
+            gameState.selectedOption = null;
+            gameState.isAnswered = false;
+            gameState.usedQuestions = [];
+            gameState.gameActive = true;
+            gameState.timePerQuestion = [];
+            gameState.hintsUsed = 0;
+            gameState.totalTime = 0;
+            gameState.level = "مبتدئ";
+            
+            // Update UI
+            updateScoreDisplay();
+            updateStatsDisplay();
+            updateProgressDisplay();
+            updateLevelDisplay();
+            
+            // Load first question
+            loadQuestion();
+            
+            // Initialize categories
+            initCategories();
+            
+            // Start timer
+            startTimer();
+        }
+
+        // Initialize Categories
+        function initCategories() {
+            categoriesList.innerHTML = '';
+            
+            gameData.categories.forEach(category => {
+                const categoryTag = document.createElement('div');
+                categoryTag.className = `category-tag ${category === gameState.currentCategory ? 'active' : ''}`;
+                categoryTag.textContent = category;
+                categoryTag.addEventListener('click', () => {
+                    if (gameState.gameActive) {
+                        // Remove active class from all categories
+                        document.querySelectorAll('.category-tag').forEach(tag => {
+                            tag.classList.remove('active');
+                        });
+                        
+                        // Add active class to clicked category
+                        categoryTag.classList.add('active');
+                        
+                        // Change category
+                        gameState.currentCategory = category;
+                        gameState.usedQuestions = [];
+                        gameState.currentQuestionIndex = 0;
+                        
+                        // Update category badge
+                        categoryBadge.innerHTML = `<i class="fas fa-tag"></i> ${category}`;
+                        
+                        // Load new question
+                        loadQuestion();
+                        
+                        // Reset progress
+                        updateProgressDisplay();
+                    }
+                });
+                
+                categoriesList.appendChild(categoryTag);
+            });
+        }
+
+        // Load Question
+        function loadQuestion() {
+            // Stop previous timer
+            stopTimer();
+            
+            // Reset selection
+            gameState.selectedOption = null;
+            gameState.isAnswered = false;
+            gameState.timer = 30;
+            
+            // Update timer display
+            timerText.textContent = gameState.timer;
+            const circumference = 2 * Math.PI * 65;
+            timerProgress.style.strokeDashoffset = 0;
+            timerProgress.style.stroke = 'var(--accent)';
+            
+            // Hide hint
+            questionHint.classList.remove('show');
+            
+            // Update question number
+            questionNumber.innerHTML = `<i class="fas fa-question-circle"></i> سؤال ${gameState.currentQuestionIndex + 1} من ${gameState.totalQuestions}`;
+            
+            // Get random question from current category
+            let availableQuestions = gameData.questions.filter(q => 
+                q.category === gameState.currentCategory && 
+                !gameState.usedQuestions.includes(q.id)
+            );
+            
+            // If no more questions in this category, reset used questions
+            if (availableQuestions.length === 0) {
+                gameState.usedQuestions = [];
+                availableQuestions = gameData.questions.filter(q => 
+                    q.category === gameState.currentCategory
+                );
+            }
+            
+            // Select random question
+            const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+            const currentQuestion = availableQuestions[randomIndex];
+            gameState.usedQuestions.push(currentQuestion.id);
+            
+            // Update question display
+            questionText.textContent = currentQuestion.question;
+            questionHint.innerHTML = `<i class="fas fa-lightbulb"></i> <strong>تلميح:</strong> ${currentQuestion.hint}`;
+            categoryBadge.innerHTML = `<i class="fas fa-tag"></i> ${currentQuestion.category}`;
+            
+            // Clear options grid
+            optionsGrid.innerHTML = '';
+            
+            // Create option elements
+            const optionLetters = ['أ', 'ب', 'ج', 'د'];
+            currentQuestion.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.innerHTML = `
+                    <div class="option-letter">${optionLetters[index]}</div>
+                    ${option}
+                `;
+                
+                optionElement.addEventListener('click', () => {
+                    if (!gameState.isAnswered) {
+                        // Remove selected class from all options
+                        document.querySelectorAll('.option').forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        
+                        // Add selected class to clicked option
+                        optionElement.classList.add('selected');
+                        gameState.selectedOption = index;
+                    }
+                });
+                
+                optionsGrid.appendChild(optionElement);
+            });
+            
+            // Update buttons state
+            submitBtn.disabled = false;
+            nextBtn.disabled = true;
+            hintBtn.disabled = false;
+            
+            // Start timer
+            startTimer();
+        }
+
+        // Start Timer
+        function startTimer() {
+            clearInterval(gameState.timerInterval);
+            
+            gameState.timerInterval = setInterval(() => {
+                gameState.timer--;
+                timerText.textContent = gameState.timer;
+                
+                // Update timer circle
+                const circumference = 2 * Math.PI * 65;
+                const offset = circumference - (gameState.timer / 30) * circumference;
+                timerProgress.style.strokeDashoffset = offset;
+                
+                // Change color when time is running out
+                if (gameState.timer <= 10) {
+                    timerProgress.style.stroke = '#FF3B30';
+                } else if (gameState.timer <= 20) {
+                    timerProgress.style.stroke = '#FF9500';
+                }
+                
+                // Time's up
+                if (gameState.timer <= 0) {
+                    clearInterval(gameState.timerInterval);
+                    
+                    if (!gameState.isAnswered) {
+                        gameState.isAnswered = true;
+                        gameState.wrongAnswers++;
+                        gameState.score = Math.max(0, gameState.score - 5);
+                        gameState.questionsAnswered++;
+                        
+                        // Show correct answer
+                        const currentQuestion = getCurrentQuestion();
+                        const correctOption = document.querySelectorAll('.option')[currentQuestion.correctAnswer];
+                        correctOption.classList.add('correct');
+                        
+                        updateScoreDisplay();
+                        updateStatsDisplay();
+                        updateLevelDisplay();
+                        
+                        // Disable buttons
+                        submitBtn.disabled = true;
+                        nextBtn.disabled = false;
+                        hintBtn.disabled = true;
+                        
+                        // Check if game is over
+                        if (gameState.currentQuestionIndex >= gameState.totalQuestions - 1) {
+                            setTimeout(showResults, 1500);
+                        }
+                    }
+                }
+            }, 1000);
+        }
+
+        // Stop Timer
+        function stopTimer() {
+            clearInterval(gameState.timerInterval);
+            if (gameState.isAnswered) {
+                gameState.totalTime += (30 - gameState.timer);
+            }
+        }
+
+        // Get Current Question
+        function getCurrentQuestion() {
+            const categoryQuestions = gameData.questions.filter(q => q.category === gameState.currentCategory);
+            return categoryQuestions.find(q => q.id === gameState.usedQuestions[gameState.usedQuestions.length - 1]);
+        }
+
+        // Update Score Display
+        function updateScoreDisplay() {
+            playerScore.textContent = gameState.score;
+            
+            // Change color based on score
+            if (gameState.score >= 80) {
+                playerScore.style.color = '#4CD964';
+            } else if (gameState.score >= 50) {
+                playerScore.style.color = '#FF9500';
+            } else {
+                playerScore.style.color = '#FF3B30';
+            }
+        }
+
+        // Update Stats Display
+        function updateStatsDisplay() {
+            correctCount.textContent = gameState.correctAnswers;
+            wrongCount.textContent = gameState.wrongAnswers;
+            questionsCount.textContent = gameState.questionsAnswered;
+            hintsCount.textContent = gameState.hintsUsed;
+        }
+
+        // Update Progress Display
+        function updateProgressDisplay() {
+            const progress = (gameState.currentQuestionIndex / gameState.totalQuestions) * 100;
+            progressFill.style.width = `${progress}%`;
+            progressText.textContent = `${gameState.currentQuestionIndex}/${gameState.totalQuestions}`;
+        }
+
+        // Update Level Display
+        function updateLevelDisplay() {
+            if (gameState.score >= 90) {
+                gameState.level = "خبير";
+            } else if (gameState.score >= 70) {
+                gameState.level = "متقدم";
+            } else if (gameState.score >= 40) {
+                gameState.level = "متوسط";
+            } else {
+                gameState.level = "مبتدئ";
+            }
+            
+            levelBadge.textContent = `المستوى: ${gameState.level}`;
+        }
+
+        // Check Answer
+        function checkAnswer() {
+            if (gameState.selectedOption === null) {
+                alert("الرجاء اختيار إجابة قبل التأكيد!");
+                return;
+            }
+            
+            stopTimer();
+            gameState.isAnswered = true;
+            gameState.questionsAnswered++;
+            
+            const currentQuestion = getCurrentQuestion();
+            const selectedOption = document.querySelectorAll('.option')[gameState.selectedOption];
+            const correctOption = document.querySelectorAll('.option')[currentQuestion.correctAnswer];
+            
+            // Check if answer is correct
+            if (gameState.selectedOption === currentQuestion.correctAnswer) {
+                selectedOption.classList.add('correct');
+                gameState.correctAnswers++;
+                gameState.score += 10;
+                
+                // Play correct sound effect
+                playSound('correct');
+            } else {
+                selectedOption.classList.add('incorrect');
+                correctOption.classList.add('correct');
+                gameState.wrongAnswers++;
+                gameState.score = Math.max(0, gameState.score - 5);
+                
+                // Play incorrect sound effect
+                playSound('incorrect');
+            }
+            
+            // Update displays
+            updateScoreDisplay();
+            updateStatsDisplay();
+            updateLevelDisplay();
+            
+            // Disable buttons
+            submitBtn.disabled = true;
+            nextBtn.disabled = false;
+            hintBtn.disabled = true;
+            
+            // Check if game is over
+            if (gameState.currentQuestionIndex >= gameState.totalQuestions - 1) {
+                setTimeout(showResults, 1500);
+            }
+        }
+
+        // Play Sound
+        function playSound(type) {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                if (type === 'correct') {
+                    // Correct answer sound (uplifting)
+                    for (let i = 0; i < 3; i++) {
+                        setTimeout(() => {
+                            const oscillator = audioContext.createOscillator();
+                            const gainNode = audioContext.createGain();
+                            
+                            oscillator.connect(gainNode);
+                            gainNode.connect(audioContext.destination);
+                            
+                            const notes = [523.25, 659.25, 783.99, 1046.50];
+                            oscillator.frequency.setValueAtTime(notes[i], audioContext.currentTime);
+                            
+                            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                            
+                            oscillator.start(audioContext.currentTime);
+                            oscillator.stop(audioContext.currentTime + 0.3);
+                        }, i * 100);
+                    }
+                } else if (type === 'incorrect') {
+                    // Incorrect answer sound (descending)
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(392.00, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(349.23, audioContext.currentTime + 0.1);
+                    oscillator.frequency.setValueAtTime(311.13, audioContext.currentTime + 0.2);
+                    oscillator.frequency.setValueAtTime(293.66, audioContext.currentTime + 0.3);
+                    
+                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                    
+                    oscillator.type = 'sawtooth';
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                }
+            } catch (e) {
+                // Audio context not supported - silent fail
+            }
+        }
+
+        // Show Hint
+        function showHint() {
+            if (!gameState.isAnswered && gameState.hintsUsed < 3) {
+                questionHint.classList.add('show');
+                gameState.hintsUsed++;
+                gameState.score = Math.max(0, gameState.score - 2);
+                
+                updateStatsDisplay();
+                updateScoreDisplay();
+                hintBtn.disabled = true;
+            }
+        }
+
+        // Next Question
+        function nextQuestion() {
+            gameState.currentQuestionIndex++;
+            updateProgressDisplay();
+            
+            if (gameState.currentQuestionIndex < gameState.totalQuestions) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // Show Results
+        function showResults() {
+            gameState.gameActive = false;
+            clearInterval(gameState.timerInterval);
+            
+            // Calculate accuracy
+            const accuracy = gameState.questionsAnswered > 0 
+                ? Math.round((gameState.correctAnswers / gameState.questionsAnswered) * 100) 
+                : 0;
+            
+            // Calculate average time
+            const avgTime = gameState.questionsAnswered > 0
+                ? Math.round(gameState.totalTime / gameState.questionsAnswered)
+                : 0;
+            
+            // Set modal content based on score
+            if (gameState.score >= 80) {
+                modalTitle.textContent = "إنجاز مذهل!";
+                modalText.textContent = "أداء استثنائي! أنت تمتلك ثقافة موسوعية ومعرفة واسعة.";
+            } else if (gameState.score >= 60) {
+                modalTitle.textContent = "أداء ممتاز";
+                modalText.textContent = "نتيجة رائعة! لديك معرفة ثقافية قوية ومتنوعة.";
+            } else if (gameState.score >= 40) {
+                modalTitle.textContent = "جيد جداً";
+                modalText.textContent = "أداء جيد، يمكنك تحسين معلوماتك بالقراءة والبحث.";
+            } else if (gameState.score >= 20) {
+                modalTitle.textContent = "مقبول";
+                modalText.textContent = "ليس سيئاً، استمر في التعلم والتحدي لتحسين مستواك.";
+            } else {
+                modalTitle.textContent = "حاول مرة أخرى";
+                modalText.textContent = "لا تيأس، المعرفة تكتسب بالتجربة والتعلم المستمر.";
+            }
+            
+            // Set result values
+            finalScore.textContent = gameState.score;
+            finalCorrect.textContent = gameState.correctAnswers;
+            finalAccuracy.textContent = `${accuracy}%`;
+            finalTime.textContent = `${avgTime} ثانية`;
+            
+            // Show modal
+            resultModal.classList.add('active');
+        }
+
+        // Change Category Randomly
+        function changeCategoryRandomly() {
+            if (gameState.gameActive) {
+                // Get random category (different from current)
+                let newCategory;
+                do {
+                    const randomIndex = Math.floor(Math.random() * gameData.categories.length);
+                    newCategory = gameData.categories[randomIndex];
+                } while (newCategory === gameState.currentCategory && gameData.categories.length > 1);
+                
+                // Update UI
+                document.querySelectorAll('.category-tag').forEach(tag => {
+                    tag.classList.remove('active');
+                    if (tag.textContent === newCategory) {
+                        tag.classList.add('active');
+                    }
+                });
+                
+                // Change category
+                gameState.currentCategory = newCategory;
+                gameState.usedQuestions = [];
+                gameState.currentQuestionIndex = 0;
+                
+                // Update category badge
+                categoryBadge.innerHTML = `<i class="fas fa-tag"></i> ${newCategory}`;
+                
+                // Load new question
+                loadQuestion();
+                
+                // Reset progress
+                updateProgressDisplay();
+            }
+        }
+
+        // Event Listeners
+        submitBtn.addEventListener('click', checkAnswer);
+        hintBtn.addEventListener('click', showHint);
+        nextBtn.addEventListener('click', nextQuestion);
+        restartBtn.addEventListener('click', initGame);
+        changeCategoryBtn.addEventListener('click', changeCategoryRandomly);
+        closeModalBtn.addEventListener('click', () => {
+            resultModal.classList.remove('active');
+        });
+        playAgainBtn.addEventListener('click', () => {
+            resultModal.classList.remove('active');
+            setTimeout(initGame, 500);
+        });
+
+        // Keyboard Controls
+        document.addEventListener('keydown', (e) => {
+            if (!gameState.gameActive && !resultModal.classList.contains('active')) return;
+            
+            switch(e.key) {
+                case '1':
+                case 'أ':
+                    document.querySelectorAll('.option')[0]?.click();
+                    break;
+                case '2':
+                case 'ب':
+                    document.querySelectorAll('.option')[1]?.click();
+                    break;
+                case '3':
+                case 'ج':
+                    document.querySelectorAll('.option')[2]?.click();
+                    break;
+                case '4':
+                case 'د':
+                    document.querySelectorAll('.option')[3]?.click();
+                    break;
+                case 'Enter':
+                    if (!gameState.isAnswered && gameState.selectedOption !== null) {
+                        checkAnswer();
+                    } else if (gameState.isAnswered) {
+                        nextQuestion();
+                    }
+                    break;
+                case ' ':
+                    showHint();
+                    break;
+                case 'Escape':
+                    if (resultModal.classList.contains('active')) {
+                        resultModal.classList.remove('active');
+                    }
+                    break;
+            }
+        });
+
+        // Initialize the game
+        initGame();
+    </script>
+</body>
+</html>
