@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة سين جيم - اختبار ثقافي تفاعلي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&family=El+Messiri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2E86AB;
+            --secondary: #A23B72;
+            --accent: #F18F01;
+            --dark: #1E1E2E;
+            --light: #F7F9FC;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --danger: #F44336;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans Arabic', sans-serif;
+            background: linear-gradient(135deg, #1E1E2E 0%, #2D3047 100%);
+            color: var(--light);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            text-align: center;
+            padding: 30px 0;
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            font-size: 4rem;
+            color: var(--accent);
+            filter: drop-shadow(0 0 15px rgba(241, 143, 1, 0.4));
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        h1 {
+            font-family: 'El Messiri', cursive;
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: #B0B7C3;
+            max-width: 600px;
+            margin: 0 auto 20px;
+            line-height: 1.8;
+        }
+
+        /* Game Container */
+        .game-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 992px) {
+            .game-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Main Game Area */
+        .main-game {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-game::before {
+            content: "س ج";
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            font-size: 20rem;
+            font-family: 'El Messiri', cursive;
+            color: rgba(255, 255, 255, 0.02);
+            z-index: 0;
+        }
+
+        /* Question Area */
+        .question-container {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 40px;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, var(--primary), #3BA3D0);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(46, 134, 171, 0.3);
+        }
+
+        .category-badge {
+            background: linear-gradient(135deg, var(--secondary), #C44D8C);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(162, 59, 114, 0.3);
+        }
+
+        .question-text {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+            padding: 40px;
+            font-size: 2rem;
+            font-weight: 600;
+            line-height: 1.8;
+            color: var(--light);
+            border-right: 5px solid var(--accent);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            margin-bottom: 25px;
+            position: relative;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+        }
+
+        .question-hint {
+            background: rgba(241, 143, 1, 0.1);
+            border: 2px solid rgba(241, 143, 1, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #FFD8A6;
+            display: none;
+        }
+
+        .question-hint.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Timer */
+        .timer-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .timer-label {
+            font-size: 1.3rem;
+            color: #B0B7C3;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .timer-circle {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+
+        .timer-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .timer-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 8;
+        }
+
+        .timer-progress {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        .timer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--light);
+        }
+
+        /* Answer Options */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.07);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.3rem;
+            font-weight: 500;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .option.selected {
+            background: rgba(46, 134, 171, 0.25);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(46, 134, 171, 0.3);
+        }
+
+        .option.correct {
+            background: rgba(76, 175, 80, 0.25);
+            border-color: var(--success);
+            animation: correctPulse 0.5s;
+        }
+
+        .option.incorrect {
+            background: rgba(244, 67, 54, 0.25);
+            border-color: var(--danger);
+            animation: shake 0.5s;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .option-letter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* Game Controls */
+        .game-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 18px 35px;
+            border: none;
+            border-radius: 15px;
+            font-family: 'Noto Sans Arabic', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            min-width: 180px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #3BA3D0);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(46, 134, 171, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #66BB6A);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning), #FFD54F);
+            color: #333;
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 193, 7, 0.4);
+        }
+
+        /* Sidebar */
+        .game-sidebar {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .player-card {
+            background: linear-gradient(135deg, rgba(46, 134, 171, 0.2), rgba(162, 59, 114, 0.2));
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .player-title {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .player-score {
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: var(--light);
+            margin-bottom: 10px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .player-label {
+            color: #B0B7C3;
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-value {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #B0B7C3;
+            font-size: 1rem;
+        }
+
+        .progress-section {
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1rem;
+            color: #B0B7C3;
+        }
+
+        .categories-section {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        .categories-title {
+            font-size: 1.4rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .categories-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .category-tag {
+            background: rgba(255, 255, 255, 0.08);
+            color: #D0D7E3;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .category-tag:hover {
+            background: rgba(46, 134, 171, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .category-tag.active {
+            background: linear-gradient(135deg, var(--primary), #3BA3D0);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #B0B7C3;
+            font-size: 1.1rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .game-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border-right: 4px solid var(--accent);
+        }
+
+        .info-title {
+            font-size: 1.4rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-list {
+            list-style: none;
+            padding-right: 20px;
+        }
+
+        .info-list li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-right: 25px;
+        }
+
+        .info-list li::before {
+            content: "•";
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.5rem;
+            position: absolute;
+            right: 0;
+        }
+
+        /* Result Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: linear-gradient(135deg, #1E1E2E 0%, #2D3047 100%);
+            border-radius: 25px;
+            padding: 50px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(241, 143, 1, 0.3);
+            transform: translateY(50px);
+            transition: transform 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .modal-icon {
+            font-size: 6rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px rgba(241, 143, 1, 0.5));
+        }
+
+        .modal-title {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-family: 'El Messiri', cursive;
+        }
+
+        .modal-text {
+            font-size: 1.5rem;
+            color: #D0D7E3;
+            margin-bottom: 40px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .modal-results {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .result-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-value {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--light);
+            margin-bottom: 10px;
+        }
+
+        .result-label {
+            color: #B0B7C3;
+            font-size: 1.2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .question-text {
+                font-size: 1.6rem;
+                padding: 25px;
+            }
+            
+            .btn {
+                padding: 15px 25px;
+                min-width: 150px;
+                font-size: 1rem;
+            }
+            
+            .player-score {
+                font-size: 3.5rem;
+            }
+            
+            .modal {
+                padding: 30px;
+            }
+            
+            .modal-title {
+                font-size: 2.2rem;
+            }
+            
+            .modal-results {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-brain logo-icon"></i>
+                <h1>لعبة سين جيم</h1>
+            </div>
+            <p class="subtitle">اختبر معلوماتك في شتى المجالات مع لعبة الأسئلة الثقافية التفاعلية - تحدى نفسك ووسع مداركك</p>
+        </header>
+
+        <div class="game-container">
+            <!-- Main Game Area -->
+            <div class="main-game">
+                <!-- Question Header -->
+                <div class="question-header">
+                    <div class="question-number" id="questionNumber">سؤال 1 من 10</div>
+                    <div class="category-badge" id="categoryBadge">ثقافة عامة</div>
+                </div>
+
+                <!-- Question Area -->
+                <div class="question-container">
+                    <div class="question-text" id="questionText">
+                        ما هي عاصمة المملكة العربية السعودية؟
+                    </div>
+                    
+                    <!-- Timer -->
+                    <div class="timer-container">
+                        <div class="timer-label">
+                            <i class="fas fa-clock"></i> الوقت المتبقي
+                        </div>
+                        <div class="timer-circle">
+                            <svg class="timer-svg" viewBox="0 0 120 120">
+                                <circle class="timer-bg" cx="60" cy="60" r="54"></circle>
+                                <circle class="timer-progress" cx="60" cy="60" r="54" stroke-dasharray="339.292" stroke-dashoffset="0"></circle>
+                            </svg>
+                            <div class="timer-text" id="timerText">30</div>
+                        </div>
+                    </div>
+
+                    <!-- Answer Options -->
+                    <div class="options-grid" id="optionsGrid">
+                        <!-- Options will be generated by JavaScript -->
+                    </div>
+
+                    <!-- Question Hint -->
+                    <div class="question-hint" id="questionHint">
+                        <i class="fas fa-lightbulb"></i> تلميح: هي مدينة تاريخية وعاصمة البلاد
+                    </div>
+                </div>
+
+                <!-- Game Controls -->
+                <div class="game-controls">
+                    <button class="btn btn-secondary" id="hintBtn">
+                        <i class="fas fa-lightbulb"></i> عرض التلميح
+                    </button>
+                    <button class="btn btn-primary" id="nextBtn">
+                        <i class="fas fa-forward"></i> السؤال التالي
+                    </button>
+                    <button class="btn btn-success" id="submitBtn">
+                        <i class="fas fa-check-circle"></i> تأكيد الإجابة
+                    </button>
+                </div>
+
+                <!-- Game Instructions -->
+                <div class="game-info">
+                    <h3 class="info-title"><i class="fas fa-info-circle"></i> كيف تلعب</h3>
+                    <ul class="info-list">
+                        <li>اختر الإجابة الصحيحة من بين الخيارات الأربعة</li>
+                        <li>لديك 30 ثانية للإجابة على كل سؤال</li>
+                        <li>يمكنك استخدام زر "التلميح" مرة واحدة لكل سؤال</li>
+                        <li>كل إجابة صحيحة تضيف 10 نقاط إلى رصيدك</li>
+                        <li>كل إجابة خاطئة تخصم 5 نقاط من رصيدك</li>
+                        <li>يمكنك تغيير فئة الأسئلة في أي وقت من القائمة الجانبية</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Game Sidebar -->
+            <div class="game-sidebar">
+                <!-- Player Card -->
+                <div class="player-card">
+                    <div class="player-title">رصيد النقاط</div>
+                    <div class="player-score" id="playerScore">0</div>
+                    <div class="player-label">إجمالي نقاطك</div>
+                </div>
+
+                <!-- Game Stats -->
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-value" id="correctCount">0</div>
+                        <div class="stat-label">إجابات صحيحة</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="wrongCount">0</div>
+                        <div class="stat-label">إجابات خاطئة</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="questionsCount">0</div>
+                        <div class="stat-label">أسئلة مجابة</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="hintsCount">0</div>
+                        <div class="stat-label">تلميحات مستخدمة</div>
+                    </div>
+                </div>
+
+                <!-- Progress -->
+                <div class="progress-section">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>تقدم اللعبة</span>
+                        <span id="progressText">0/10</span>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div class="categories-section">
+                    <h3 class="categories-title"><i class="fas fa-tags"></i> فئات الأسئلة</h3>
+                    <div class="categories-list" id="categoriesList">
+                        <!-- Categories will be generated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Game Controls -->
+                <button class="btn btn-warning" id="restartBtn">
+                    <i class="fas fa-redo"></i> إعادة البدء
+                </button>
+                <button class="btn btn-secondary" id="changeCategoryBtn">
+                    <i class="fas fa-random"></i> فئة عشوائية
+                </button>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-item">
+                    <i class="fas fa-gamepad"></i>
+                    <span>لعبة سين جيم الثقافية - اختبار معلوماتك</span>
+                </div>
+                <div class="footer-item">
+                    <i class="fas fa-code"></i>
+                    <span>تطوير ويب تفاعلي باستخدام HTML5, CSS3, JavaScript</span>
+                </div>
+            </div>
+            <p>© 2023 لعبة سين جيم - جميع الحقوق محفوظة. تم التطوير لأغراض تعليمية وترفيهية.</p>
+        </footer>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 class="modal-title" id="modalTitle">تهانينا!</h2>
+                <p class="modal-text" id="modalText">لقد أكملت جولة الأسئلة بنجاح</p>
+            </div>
+            
+            <div class="modal-results">
+                <div class="result-box">
+                    <div class="result-value" id="finalScore">0</div>
+                    <div class="result-label">النقاط النهائية</div>
+                </div>
+                <div class="result-box">
+                    <div class="result-value" id="finalCorrect">0</div>
+                    <div class="result-label">إجابات صحيحة</div>
+                </div>
+                <div class="result-box">
+                    <div class="result-value" id="finalAccuracy">0%</div>
+                    <div class="result-label">معدل الدقة</div>
+                </div>
+                <div class="result-box">
+                    <div class="result-value" id="finalTime">0</div>
+                    <div class="result-label">متوسط الوقت</div>
+                </div>
+            </div>
+            
+            <div class="game-controls">
+                <button class="btn btn-secondary" id="closeModalBtn">
+                    <i class="fas fa-times"></i> إغلاق
+                </button>
+                <button class="btn btn-primary" id="playAgainBtn">
+                    <i class="fas fa-play"></i> لعب مرة أخرى
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game Data - Arabic Trivia Questions
+        const gameData = {
+            categories: [
+                "ثقافة عامة", "تاريخ عربي", "علوم", "أدب عربي",
+                "جغرافيا", "فنون", "رياضة", "تكنولوجيا"
+            ],
+            
+            questions: [
+                // General Culture
+                {
+                    id: 1,
+                    category: "ثقافة عامة",
+                    question: "ما هي عاصمة المملكة العربية السعودية؟",
+                    options: ["الرياض", "جدة", "مكة المكرمة", "الدمام"],
+                    correctAnswer: 0,
+                    hint: "هي أكبر مدن السعودية وتقع في وسط البلاد"
+                },
+                {
+                    id: 2,
+                    category: "ثقافة عامة",
+                    question: "كم عدد أيام السنة الكبيسة؟",
+                    options: ["365", "366", "364", "367"],
+                    correctAnswer: 1,
+                    hint: "تحدث كل 4 سنوات وتضاف فيها يوم واحد"
+                },
+                {
+                    id: 3,
+                    category: "ثقافة عامة",
+                    question: "ما هو أسرع حيوان بري في العالم؟",
+                    options: ["الفهد", "الأسد", "النمر", "الغزال"],
+                    correctAnswer: 0,
+                    hint: "يمكن أن تصل سرعته إلى 120 كم/ساعة"
+                },
+                
+                // Arabic History
+                {
+                    id: 4,
+                    category: "تاريخ عربي",
+                    question: "من هو القائد المسلم الذي فتح الأندلس؟",
+                    options: ["طارق بن زياد", "صلاح الدين الأيوبي", "خالد بن الوليد", "عمرو بن العاص"],
+                    correctAnswer: 0,
+                    hint: "سمي مضيق بحري باسمه"
+                },
+                {
+                    id: 5,
+                    category: "تاريخ عربي",
+                    question: "في أي عام وقعت معركة حطين؟",
+                    options: ["1187 م", "1191 م", "1175 م", "1200 م"],
+                    correctAnswer: 0,
+                    hint: "كانت ضد الصليبيين بقيادة صلاح الدين الأيوبي"
+                },
+                {
+                    id: 6,
+                    category: "تاريخ عربي",
+                    question: "ما اسم الخليفة العباسي الذي أسس مدينة بغداد؟",
+                    options: ["المنصور", "هارون الرشيد", "المأمون", "المعتصم"],
+                    correctAnswer: 0,
+                    hint: "حكم في الفترة من 754 إلى 775 م"
+                },
+                
+                // Science
+                {
+                    id: 7,
+                    category: "علوم",
+                    question: "ما هو أقرب كوكب إلى الشمس؟",
+                    options: ["الزهرة", "عطارد", "المريخ", "الأرض"],
+                    correctAnswer: 1,
+                    hint: "أصغر كوكب في المجموعة الشمسية"
+                },
+                {
+                    id: 8,
+                    category: "علوم",
+                    question: "ما هو العنصر الكيميائي الذي رمزه 'O'؟",
+                    options: ["ذهب", "أوكسجين", "فضة", "حديد"],
+                    correctAnswer: 1,
+                    hint: "غاز ضروري للتنفس"
+                },
+                {
+                    id: 9,
+                    category: "علوم",
+                    question: "كم عدد العظام في جسم الإنسان البالغ؟",
+                    options: ["206", "300", "150", "250"],
+                    correctAnswer: 0,
+                    hint: "يولد الطفل بحوالي 270 عظمة"
+                },
+                
+                // Arabic Literature
+                {
+                    id: 10,
+                    category: "أدب عربي",
+                    question: "من هو مؤلف كتاب 'البيان والتبيين'؟",
+                    options: ["الجاحظ", "ابن خلدون", "الزمخشري", "الجرجاني"],
+                    correctAnswer: 0,
+                    hint: "كاتب عربي من البصرة له كتاب 'الحيوان'"
+                },
+                {
+                    id: 11,
+                    category: "أدب عربي",
+                    question: "ما هي المعلقة التي تبدأ بـ 'قفا نبك من ذكرى حبيب ومنزل'؟",
+                    options: ["عنترة بن شداد", "امرؤ القيس", "لبيد بن ربيعة", "طرفة بن العبد"],
+                    correctAnswer: 1,
+                    hint: "صاحبها يلقب بـ 'الملك الضليل'"
+                },
+                {
+                    id: 12,
+                    category: "أدب عربي",
+                    question: "من هو الشاعر الذي لقب بـ 'شاعر النيل'؟",
+                    options: ["أحمد شوقي", "حافظ إبراهيم", "نزار قباني", "محمود درويش"],
+                    correctAnswer: 1,
+                    hint: "من رواد مدرسة الإحياء والبعث في الشعر العربي"
+                },
+                
+                // Geography
+                {
+                    id: 13,
+                    category: "جغرافيا",
+                    question: "ما هو أطول نهر في العالم؟",
+                    options: ["النيل", "الأمازون", "الميسيسيبي", "الدانوب"],
+                    correctAnswer: 1,
+                    hint: "يقع في أمريكا الجنوبية"
+                },
+                {
+                    id: 14,
+                    category: "جغرافيا",
+                    question: "ما هي أكبر دولة في العالم من حيث المساحة؟",
+                    options: ["كندا", "الولايات المتحدة", "روسيا", "الصين"],
+                    correctAnswer: 2,
+                    hint: "تمتد بين قارتي أوروبا وآسيا"
+                },
+                {
+                    id: 15,
+                    category: "جغرافيا",
+                    question: "في أي قارة تقع دولة الأرجنتين؟",
+                    options: ["أوروبا", "آسيا", "أمريكا الجنوبية", "أفريقيا"],
+                    correctAnswer: 2,
+                    hint: "تقع في الجزء الجنوبي من القارة"
+                },
+                
+                // Arts
+                {
+                    id: 16,
+                    category: "فنون",
+                    question: "من هو الفنان الذي رسم لوحة 'الموناليزا'؟",
+                    options: ["فان جوخ", "بيكاسو", "ليوناردو دافنشي", "رامبرانت"],
+                    correctAnswer: 2,
+                    hint: "فنان إيطالي عصر النهضة"
+                },
+                {
+                    id: 17,
+                    category: "فنون",
+                    question: "ما هي الآلة الموسيقية التي اشتهر بها الموسيقار العربي فاروق الشرنوبي؟",
+                    options: ["العود", "البيانو", "الكمان", "الناي"],
+                    correctAnswer: 0,
+                    hint: "آلة موسيقية وترية شرقية"
+                },
+                
+                // Sports
+                {
+                    id: 18,
+                    category: "رياضة",
+                    question: "كم عدد لاعبي كرة القدم في كل فريق؟",
+                    options: ["10", "11", "12", "9"],
+                    correctAnswer: 1,
+                    hint: "بما فيهم حارس المرمى"
+                },
+                {
+                    id: 19,
+                    category: "رياضة",
+                    question: "في أي رياضة يستخدم مصطلح 'سلم Servis'؟",
+                    options: ["كرة السلة", "التنس", "كرة القدم", "السباحة"],
+                    correctAnswer: 1,
+                    hint: "رياضة تستخدم فيها مضرب وكرة"
+                },
+                
+                // Technology
+                {
+                    id: 20,
+                    category: "تكنولوجيا",
+                    question: "ما هو نظام التشغيل الأكثر استخدامًا في الهواتف الذكية؟",
+                    options: ["iOS", "Android", "Windows Phone", "BlackBerry OS"],
+                    correctAnswer: 1,
+                    hint: "تم تطويره من قبل شركة جوجل"
+                }
+            ]
+        };
+
+        // Game State
+        const gameState = {
+            currentQuestionIndex: 0,
+            score: 0,
+            correctAnswers: 0,
+            wrongAnswers: 0,
+            questionsAnswered: 0,
+            totalQuestions: 10,
+            selectedOption: null,
+            timer: 30,
+            timerInterval: null,
+            isAnswered: false,
+            currentCategory: "ثقافة عامة",
+            usedQuestions: [],
+            gameActive: true,
+            timePerQuestion: [],
+            hintsUsed: 0,
+            totalTime: 0
+        };
+
+        // DOM Elements
+        const questionNumber = document.getElementById('questionNumber');
+        const questionText = document.getElementById('questionText');
+        const questionHint = document.getElementById('questionHint');
+        const categoryBadge = document.getElementById('categoryBadge');
+        const timerText = document.getElementById('timerText');
+        const timerProgress = document.querySelector('.timer-progress');
+        const optionsGrid = document.getElementById('optionsGrid');
+        const playerScore = document.getElementById('playerScore');
+        const correctCount = document.getElementById('correctCount');
+        const wrongCount = document.getElementById('wrongCount');
+        const questionsCount = document.getElementById('questionsCount');
+        const hintsCount = document.getElementById('hintsCount');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const categoriesList = document.getElementById('categoriesList');
+        
+        // Buttons
+        const hintBtn = document.getElementById('hintBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const changeCategoryBtn = document.getElementById('changeCategoryBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const playAgainBtn = document.getElementById('playAgainBtn');
+        const resultModal = document.getElementById('resultModal');
+        
+        // Modal Elements
+        const modalTitle = document.getElementById('modalTitle');
+        const modalText = document.getElementById('modalText');
+        const finalScore = document.getElementById('finalScore');
+        const finalCorrect = document.getElementById('finalCorrect');
+        const finalAccuracy = document.getElementById('finalAccuracy');
+        const finalTime = document.getElementById('finalTime');
+
+        // Initialize Game
+        function initGame() {
+            // Reset game state
+            gameState.currentQuestionIndex = 0;
+            gameState.score = 0;
+            gameState.correctAnswers = 0;
+            gameState.wrongAnswers = 0;
+            gameState.questionsAnswered = 0;
+            gameState.selectedOption = null;
+            gameState.isAnswered = false;
+            gameState.usedQuestions = [];
+            gameState.gameActive = true;
+            gameState.timePerQuestion = [];
+            gameState.hintsUsed = 0;
+            gameState.totalTime = 0;
+            
+            // Update UI
+            updateScoreDisplay();
+            updateStatsDisplay();
+            updateProgressDisplay();
+            
+            // Load first question
+            loadQuestion();
+            
+            // Initialize categories
+            initCategories();
+            
+            // Start timer
+            startTimer();
+        }
+
+        // Initialize Categories
+        function initCategories() {
+            categoriesList.innerHTML = '';
+            
+            gameData.categories.forEach(category => {
+                const categoryTag = document.createElement('div');
+                categoryTag.className = `category-tag ${category === gameState.currentCategory ? 'active' : ''}`;
+                categoryTag.textContent = category;
+                categoryTag.addEventListener('click', () => {
+                    if (gameState.gameActive) {
+                        // Remove active class from all categories
+                        document.querySelectorAll('.category-tag').forEach(tag => {
+                            tag.classList.remove('active');
+                        });
+                        
+                        // Add active class to clicked category
+                        categoryTag.classList.add('active');
+                        
+                        // Change category
+                        gameState.currentCategory = category;
+                        gameState.usedQuestions = [];
+                        loadQuestion();
+                        
+                        // Update category badge
+                        categoryBadge.textContent = category;
+                    }
+                });
+                
+                categoriesList.appendChild(categoryTag);
+            });
+        }
+
+        // Load Question
+        function loadQuestion() {
+            // Stop previous timer
+            stopTimer();
+            
+            // Reset selection
+            gameState.selectedOption = null;
+            gameState.isAnswered = false;
+            gameState.timer = 30;
+            
+            // Update timer display
+            timerText.textContent = gameState.timer;
+            const circumference = 2 * Math.PI * 54;
+            timerProgress.style.strokeDashoffset = 0;
+            
+            // Hide hint
+            questionHint.classList.remove('show');
+            
+            // Get random question from current category
+            let availableQuestions = gameData.questions.filter(q => 
+                q.category === gameState.currentCategory && 
+                !gameState.usedQuestions.includes(q.id)
+            );
+            
+            // If no more questions in this category, reset used questions
+            if (availableQuestions.length === 0) {
+                gameState.usedQuestions = [];
+                availableQuestions = gameData.questions.filter(q => 
+                    q.category === gameState.currentCategory
+                );
+            }
+            
+            // Select random question
+            const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+            const currentQuestion = availableQuestions[randomIndex];
+            gameState.usedQuestions.push(currentQuestion.id);
+            
+            // Update question display
+            questionNumber.textContent = `سؤال ${gameState.currentQuestionIndex + 1} من ${gameState.totalQuestions}`;
+            questionText.textContent = currentQuestion.question;
+            questionHint.innerHTML = `<i class="fas fa-lightbulb"></i> تلميح: ${currentQuestion.hint}`;
+            categoryBadge.textContent = currentQuestion.category;
+            
+            // Clear options grid
+            optionsGrid.innerHTML = '';
+            
+            // Create option elements
+            const optionLetters = ['أ', 'ب', 'ج', 'د'];
+            currentQuestion.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.innerHTML = `
+                    <div class="option-letter">${optionLetters[index]}</div>
+                    ${option}
+                `;
+                
+                optionElement.addEventListener('click', () => {
+                    if (!gameState.isAnswered) {
+                        // Remove selected class from all options
+                        document.querySelectorAll('.option').forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        
+                        // Add selected class to clicked option
+                        optionElement.classList.add('selected');
+                        gameState.selectedOption = index;
+                    }
+                });
+                
+                optionsGrid.appendChild(optionElement);
+            });
+            
+            // Update buttons state
+            submitBtn.disabled = false;
+            nextBtn.disabled = true;
+            hintBtn.disabled = false;
+            
+            // Start timer
+            startTimer();
+        }
+
+        // Start Timer
+        function startTimer() {
+            clearInterval(gameState.timerInterval);
+            
+            gameState.timerInterval = setInterval(() => {
+                gameState.timer--;
+                timerText.textContent = gameState.timer;
+                
+                // Update timer circle
+                const circumference = 2 * Math.PI * 54;
+                const offset = circumference - (gameState.timer / 30) * circumference;
+                timerProgress.style.strokeDashoffset = offset;
+                
+                // Change color when time is running out
+                if (gameState.timer <= 10) {
+                    timerProgress.style.stroke = '#F44336';
+                } else if (gameState.timer <= 20) {
+                    timerProgress.style.stroke = '#FFC107';
+                }
+                
+                // Time's up
+                if (gameState.timer <= 0) {
+                    clearInterval(gameState.timerInterval);
+                    
+                    if (!gameState.isAnswered) {
+                        gameState.isAnswered = true;
+                        gameState.wrongAnswers++;
+                        gameState.score -= 5;
+                        
+                        // Show correct answer
+                        const currentQuestion = getCurrentQuestion();
+                        const correctOption = document.querySelectorAll('.option')[currentQuestion.correctAnswer];
+                        correctOption.classList.add('correct');
+                        
+                        updateScoreDisplay();
+                        updateStatsDisplay();
+                        
+                        // Disable buttons
+                        submitBtn.disabled = true;
+                        nextBtn.disabled = false;
+                        hintBtn.disabled = true;
+                    }
+                }
+            }, 1000);
+        }
+
+        // Stop Timer
+        function stopTimer() {
+            clearInterval(gameState.timerInterval);
+            gameState.totalTime += (30 - gameState.timer);
+        }
+
+        // Get Current Question
+        function getCurrentQuestion() {
+            const categoryQuestions = gameData.questions.filter(q => q.category === gameState.currentCategory);
+            return categoryQuestions.find(q => q.id === gameState.usedQuestions[gameState.usedQuestions.length - 1]);
+        }
+
+        // Update Score Display
+        function updateScoreDisplay() {
+            playerScore.textContent = gameState.score;
+            playerScore.style.color = gameState.score >= 0 ? '#F7F9FC' : '#F44336';
+        }
+
+        // Update Stats Display
+        function updateStatsDisplay() {
+            correctCount.textContent = gameState.correctAnswers;
+            wrongCount.textContent = gameState.wrongAnswers;
+            questionsCount.textContent = gameState.questionsAnswered;
+            hintsCount.textContent = gameState.hintsUsed;
+        }
+
+        // Update Progress Display
+        function updateProgressDisplay() {
+            const progress = (gameState.currentQuestionIndex / gameState.totalQuestions) * 100;
+            progressFill.style.width = `${progress}%`;
+            progressText.textContent = `${gameState.currentQuestionIndex}/${gameState.totalQuestions}`;
+        }
+
+        // Check Answer
+        function checkAnswer() {
+            if (gameState.selectedOption === null) return;
+            
+            stopTimer();
+            gameState.isAnswered = true;
+            gameState.questionsAnswered++;
+            
+            const currentQuestion = getCurrentQuestion();
+            const selectedOption = document.querySelectorAll('.option')[gameState.selectedOption];
+            const correctOption = document.querySelectorAll('.option')[currentQuestion.correctAnswer];
+            
+            // Check if answer is correct
+            if (gameState.selectedOption === currentQuestion.correctAnswer) {
+                selectedOption.classList.add('correct');
+                gameState.correctAnswers++;
+                gameState.score += 10;
+                
+                // Play correct sound effect
+                playSound('correct');
+            } else {
+                selectedOption.classList.add('incorrect');
+                correctOption.classList.add('correct');
+                gameState.wrongAnswers++;
+                gameState.score -= 5;
+                
+                // Play incorrect sound effect
+                playSound('incorrect');
+            }
+            
+            // Update displays
+            updateScoreDisplay();
+            updateStatsDisplay();
+            
+            // Disable buttons
+            submitBtn.disabled = true;
+            nextBtn.disabled = false;
+            hintBtn.disabled = true;
+            
+            // Check if game is over
+            if (gameState.currentQuestionIndex >= gameState.totalQuestions - 1) {
+                setTimeout(showResults, 1500);
+            }
+        }
+
+        // Play Sound
+        function playSound(type) {
+            // Create audio context for sound effects
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                if (type === 'correct') {
+                    // Correct answer sound
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+                    oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
+                    oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
+                    
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                } else if (type === 'incorrect') {
+                    // Incorrect answer sound
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(196.00, audioContext.currentTime); // G3
+                    oscillator.frequency.setValueAtTime(174.61, audioContext.currentTime + 0.1); // F3
+                    oscillator.frequency.setValueAtTime(155.56, audioContext.currentTime + 0.2); // D#3
+                    
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                    
+                    oscillator.type = 'sawtooth';
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                }
+            } catch (e) {
+                console.log('Audio context not supported');
+            }
+        }
+
+        // Show Hint
+        function showHint() {
+            if (!gameState.isAnswered && gameState.hintsUsed < 3) {
+                questionHint.classList.add('show');
+                gameState.hintsUsed++;
+                updateStatsDisplay();
+                hintBtn.disabled = true;
+                
+                // Deduct points for using hint
+                gameState.score -= 2;
+                updateScoreDisplay();
+            }
+        }
+
+        // Next Question
+        function nextQuestion() {
+            gameState.currentQuestionIndex++;
+            updateProgressDisplay();
+            
+            if (gameState.currentQuestionIndex < gameState.totalQuestions) {
+                loadQuestion();
+            }
+        }
+
+        // Show Results
+        function showResults() {
+            gameState.gameActive = false;
+            clearInterval(gameState.timerInterval);
+            
+            // Calculate accuracy
+            const accuracy = gameState.questionsAnswered > 0 
+                ? Math.round((gameState.correctAnswers / gameState.questionsAnswered) * 100) 
+                : 0;
+            
+            // Calculate average time
+            const avgTime = gameState.questionsAnswered > 0
+                ? Math.round(gameState.totalTime / gameState.questionsAnswered)
+                : 0;
+            
+            // Set modal content based on score
+            if (gameState.score >= 70) {
+                modalTitle.textContent = "ممتاز!";
+                modalText.textContent = "أداء رائع! لديك ثقافة واسعة ومعرفة ممتازة.";
+            } else if (gameState.score >= 40) {
+                modalTitle.textContent = "جيد جداً";
+                modalText.textContent = "أداء جيد، لديك معلومات ثقافية جيدة.";
+            } else if (gameState.score >= 0) {
+                modalTitle.textContent = "مقبول";
+                modalText.textContent = "ليس سيئاً، يمكنك تحسين معلوماتك بالقراءة أكثر.";
+            } else {
+                modalTitle.textContent = "حاول مرة أخرى";
+                modalText.textContent = "لا تيأس، استمر في التعلم وحاول مرة أخرى.";
+            }
+            
+            // Set result values
+            finalScore.textContent = gameState.score;
+            finalCorrect.textContent = gameState.correctAnswers;
+            finalAccuracy.textContent = `${accuracy}%`;
+            finalTime.textContent = `${avgTime} ثانية`;
+            
+            // Show modal
+            resultModal.classList.add('active');
+        }
+
+        // Change Category Randomly
+        function changeCategoryRandomly() {
+            if (gameState.gameActive) {
+                // Get random category
+                const randomIndex = Math.floor(Math.random() * gameData.categories.length);
+                const newCategory = gameData.categories[randomIndex];
+                
+                // Update UI
+                document.querySelectorAll('.category-tag').forEach(tag => {
+                    tag.classList.remove('active');
+                    if (tag.textContent === newCategory) {
+                        tag.classList.add('active');
+                    }
+                });
+                
+                // Change category
+                gameState.currentCategory = newCategory;
+                gameState.usedQuestions = [];
+                loadQuestion();
+                
+                // Update category badge
+                categoryBadge.textContent = newCategory;
+            }
+        }
+
+        // Event Listeners
+        submitBtn.addEventListener('click', checkAnswer);
+        hintBtn.addEventListener('click', showHint);
+        nextBtn.addEventListener('click', nextQuestion);
+        restartBtn.addEventListener('click', initGame);
+        changeCategoryBtn.addEventListener('click', changeCategoryRandomly);
+        closeModalBtn.addEventListener('click', () => {
+            resultModal.classList.remove('active');
+        });
+        playAgainBtn.addEventListener('click', () => {
+            resultModal.classList.remove('active');
+            initGame();
+        });
+
+        // Keyboard Controls
+        document.addEventListener('keydown', (e) => {
+            if (!gameState.gameActive) return;
+            
+            switch(e.key) {
+                case '1':
+                case 'أ':
+                    document.querySelectorAll('.option')[0]?.click();
+                    break;
+                case '2':
+                case 'ب':
+                    document.querySelectorAll('.option')[1]?.click();
+                    break;
+                case '3':
+                case 'ج':
+                    document.querySelectorAll('.option')[2]?.click();
+                    break;
+                case '4':
+                case 'د':
+                    document.querySelectorAll('.option')[3]?.click();
+                    break;
+                case 'Enter':
+                    if (!gameState.isAnswered && gameState.selectedOption !== null) {
+                        checkAnswer();
+                    } else if (gameState.isAnswered && gameState.currentQuestionIndex < gameState.totalQuestions - 1) {
+                        nextQuestion();
+                    }
+                    break;
+                case ' ':
+                    showHint();
+                    break;
+            }
+        });
+
+        // Initialize the game
+        initGame();
+    </script>
+</body>
+</html>
